@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>L1uy的小站</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 搜索引擎图标 -->
+        <i class="fa-solid fa-language item" id="searchEngineIcon"></i>
+        
+        <div class="search-box">
+            <!-- 搜索框 -->
+            <input type="text" class="search-btn" placeholder="Search" id="searchInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+
+        <!-- 放大镜图标 -->
+        <i class="fa-solid fa-magnifying-glass item" id="searchIcon"></i>
+    </div>
+
+    <!-- 显示时间的区域 -->
+    <div class="timeBox">正在同步时间...</div>
+
+    <!-- 引入字体图标 -->
+    <script src="https://kit.fontawesome.com/f23451c27c.js" crossorigin="anonymous"></script>
+    <script>
+        var searchBtn = document.querySelector('.search-btn');
+        var searchIcon = document.getElementById('searchIcon');
+        var searchEngineIcon = document.getElementById('searchEngineIcon');
+        var searchBox = document.querySelector('.search-box');
+        var timeBox = document.querySelector('.timeBox');
+        var searchInput = document.getElementById('searchInput');
+        var style1 = document.createElement('style');
+        
+        // 搜索引擎数组（默认是微软 Bing）
+        var searchEngines = ['bing', 'bilibili', 'google','github'  ];
+        var currentEngineIndex = 0;
+
+        // 更新搜索引擎图标
+        function updateSearchEngineIcon() {
+            switch (searchEngines[currentEngineIndex]) {
+                case 'google':
+                    searchEngineIcon.className = 'fa-brands fa-google item'; // 使用谷歌图标
+                    break;
+                case 'bing':
+                    searchEngineIcon.className = 'fa-brands fa-microsoft item'; // 使用Bing图标
+                    break;
+                case 'github':
+                    searchEngineIcon.className = 'fa-brands fa-github item'; // 使用GitHub图标
+                    break;
+                case 'bilibili':
+                    searchEngineIcon.className = 'fa-brands fa-bilibili item'; // 使用Bilibili图标
+                    break;
+            }
+        }
+
+        // 点击图标时切换搜索引擎
+        searchEngineIcon.addEventListener('click', function () {
+            currentEngineIndex = (currentEngineIndex + 1) % searchEngines.length;
+            updateSearchEngineIcon();
+        });
+
+        // 聚焦到搜索框时扩大搜索框并模糊背景
+        searchBtn.addEventListener('focus', function () {
+            style1.innerHTML = "body::before{ filter: blur(20px); transform: scale(1.01);}"; 
+            document.head.appendChild(style1);
+            searchBox.style.width = '440px';
+        });
+
+        // 失去焦点时恢复搜索框原样
+        searchBtn.addEventListener('blur', function () {
+            document.head.removeChild(style1);
+            searchBox.style.width = "";
+        });
+
+        // 每秒更新一次当前时间
+        setInterval(function () {
+            var date = new Date();
+            let hh = padZero(date.getHours());
+            let mm = padZero(date.getMinutes());
+            let ss = padZero(date.getSeconds());
+            timeBox.innerText = hh + ':' + mm + ':' + ss;
+        }, 1000);
+
+        // 格式化时间函数，确保时间为两位数
+        function padZero(n) {
+            return n > 9 ? n : '0' + n;
+        }
+
+        // 回车键触发搜索
+        searchInput.addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                search();
+            }
+        });
+
+        // 点击放大镜图标触发搜索
+        searchIcon.addEventListener('click', function () {
+            search();
+        });
+
+        // 执行搜索
+        function search() {
+            var query = searchInput.value.trim();
+            if (query) {
+                var searchUrl = '';
+                // 根据当前选择的搜索引擎生成搜索链接
+                switch (searchEngines[currentEngineIndex]) {
+                    case 'google':
+                        searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                        break;
+                    case 'bing':
+                        searchUrl = 'https://www.bing.com/search?q=' + encodeURIComponent(query);
+                        break;
+                    case 'github':
+                        searchUrl = 'https://github.com/search?q=' + encodeURIComponent(query);
+                        break;
+                    case 'bilibili':
+                        searchUrl = 'https://search.bilibili.com/all?keyword=' + encodeURIComponent(query);
+                        break;
+                }
+                window.location.href = searchUrl; // 跳转到搜索结果页
+            }
+        }
+
+        // 初始化搜索引擎图标
+        updateSearchEngineIcon();
+    </script>
+    <!-- 私有云跳转 -->
+    <div class="private-cloud">
+        <a href="http://L1uy.love:5212" target="_blank" class="cloud-icon">
+            <i class="iconfont icon-yun">&#xe691;</i>
+        </a>
+    </div>
+    <!-- 页脚 -->
+    <div class="yejiao">
+        <div class="show">
+            <div class="default-text">©2025 L1uy 丨 一个互联网边缘的小站</div>
+            <div class="hover-text">有什么事吗？ WechatID：Ly_116E39N</div>
+        </div>
+    </div>
+</body>
+
+</html>
