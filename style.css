@@ -30,7 +30,7 @@ body {
 /* 背景图片处理 */
 body::before {
     content: "";
-    background: url(./BG.jpg) no-repeat center center;
+    background: url(https://www.helloimg.com/i/2025/03/06/67c9102b8dc21.png) no-repeat center center;
     background-size: cover; /* 保证图片覆盖全屏 */
     background-position: center center;
     object-fit: cover;
