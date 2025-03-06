@@ -191,23 +191,3 @@ body {
     opacity: 1;
     transform: translateY(0); 
 }
-/* 响应式设计 */
-@media (max-width: 600px) {
-    .container {
-        flex-direction: column;
-        width: 90%;
-    }
-
-    .search-box {
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    .item {
-        font-size: 18px;
-    }
-
-    .timeBox {
-        font-size: 30px;
-    }
-}
