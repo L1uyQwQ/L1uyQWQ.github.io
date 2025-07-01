@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电脑开荒软件</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .filter-btn i {
+            margin-right: 8px;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .card.hidden {
+            display: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .card-icon {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+        }
+        
+        .card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .category {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff8a00, #e52e71);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .category.utility {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+        }
+        
+        .category.gaming {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        }
+        
+        .category.design {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+        }
+        
+        .category.media {
+            background: linear-gradient(45deg, #654ea3, #da98b4);
+        }
+        
+        .category.clean {
+            background: linear-gradient(45deg, #8e2de2, #4a00e0);
+        }
+        
+        .category.common {
+            background: linear-gradient(45deg, #ff8a00, #ffc107);
+        }
+        
+        .card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px 25px;
+        }
+        
+        .platform {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .platform i {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 114, 255, 0.4);
+        }
+        
+        .download-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .card:nth-child(2) .download-btn,
+        .card[data-category="gaming"] .download-btn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.3);
+        }
+        
+        .card:nth-child(3) .download-btn,
+        .card[data-category="design"] .download-btn {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+        }
+        
+        .card:nth-child(4) .download-btn,
+        .card[data-category="media"] .download-btn {
+            background: linear-gradient(45deg, #654ea3, #da98b4);
+            box-shadow: 0 4px 15px rgba(101, 78, 163, 0.3);
+        }
+        
+        .card:nth-child(5) .download-btn,
+        .card[data-category="clean"] .download-btn {
+            background: linear-gradient(45deg, #f46b45, #eea849);
+            box-shadow: 0 4px 15px rgba(244, 107, 69, 0.3);
+        }
+        
+        .card:nth-child(6) .download-btn,
+        .card[data-category="utility"] .download-btn {
+            background: linear-gradient(45deg, #8e2de2, #4a00e0);
+            box-shadow: 0 4px 15px rgba(142, 45, 226, 0.3);
+        }
+        
+        .card[data-category="common"] .download-btn {
+            background: linear-gradient(45deg, #ff8a00, #ffc107);
+            box-shadow: 0 4px 15px rgba(255, 138, 0, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .filters {
+                gap: 10px;
+            }
+            
+            .filter-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            display: none;
+        }
+        
+        .no-results.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>电脑常用软件下载</h1>
+            <p class="subtitle">考虑到许多不熟悉电脑操作的朋友在下载软件时，容易误装带有恶意捆绑或盗版风险的软件，特此整理了这个常用软件的官方下载合集页。</p>
+            
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all"><i class="fas fa-layer-group"></i> 全部</button>
+                <button class="filter-btn" data-filter="common"><i class="fas fa-star"></i> 常用软件</button>
+                <button class="filter-btn" data-filter="gaming"><i class="fas fa-gamepad"></i> 游戏必备</button>
+                <button class="filter-btn" data-filter="design"><i class="fas fa-paint-brush"></i> 设计创作</button>
+                <button class="filter-btn" data-filter="media"><i class="fas fa-music"></i> 影音娱乐</button>
+                <button class="filter-btn" data-filter="utility"><i class="fas fa-desktop"></i> 实用工具</button>
+                <button class="filter-btn" data-filter="clean"><i class="fas fa-broom"></i> 电脑清理</button>
+            </div>
+        </header>
+        
+        <div class="cards-container">
+            <!-- 常用软件 -->
+            <div class="card" data-category="common">
+                <div class="card-icon" style="color: #4285f4;">
+                    <i class="fab fa-chrome"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>Google Chrome</h3>
+                    <p>谷歌浏览器是全球使用最广泛的网页浏览器，提供快速、安全的网页浏览体验，支持丰富的扩展插件，跨平台同步浏览数据。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-linux"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://www.google.cn/intl/zh-CN/chrome/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="common">
+                <div class="card-icon" style="color: #00bfff;">
+                    <i class="fab fa-edge"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>Microsoft Edge</h3>
+                    <p>微软Edge浏览器基于Chromium内核开发，提供出色的性能、安全性和兼容性。集成了Microsoft服务，支持跨设备同步。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-linux"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://www.microsoft.com/edge" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="common">
+                <div class="card-icon" style="color: #00a2ed;">
+                    <i class="fab fa-weixin"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>微信电脑版</h3>
+                    <p>腾讯微信官方电脑客户端，支持在电脑上使用微信，可以同步手机微信消息、文件传输、视频通话等功能，方便办公沟通。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <a href="https://weixin.qq.com/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="common">
+                <div class="card-icon" style="color: #12b7f5;">
+                    <i class="fab fa-qq"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>TIM</h3>
+                    <p>TIM电脑客户端，QQ的平替比QQ更简洁。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <a href="https://tim.qq.com/download.html" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="common">
+                <div class="card-icon" style="color: #217346;">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>WPS Office</h3>
+                    <p>国产办公软件套件，包含文字、表格、演示三大功能，兼容Microsoft Office格式，提供丰富的模板和云服务。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-linux"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://www.wps.cn/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="common">
+                <div class="card-icon" style="color: #1da5ff;">
+                    <i class="fab fa-google-drive"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>夸克网盘</h3>
+                    <p>夸克网盘是夸克推出的一款云服务产品，功能包括云存储、高清看剧、文件在线解压、PDF一键转换等。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://pan.quark.cn/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="common">
+                <div class="card-icon" style="color: #ffffff;">
+                    <i class="fab fa-google-drive"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>百度网盘</h3>
+                    <p>百度网盘为您提供文件的网络备份、同步和分享服务。 空间大、速度快、安全稳固。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://pan.baidu.com/download" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+                 <div class="card" data-category="common">
+                <div class="card-icon" style="color: #ffb71d;">
+                    <i class="fab fa-google-drive"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category common">常用软件</span>
+                    <h3>阿里云盘</h3>
+                    <p>阿里云盘是一款速度快、不打扰、够安全、易于分享的网盘，你可以在这里存储、管理和探索内容，尽情打造丰富的数字世界。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://www.alipan.com/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <!-- 游戏必备 --> 
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #4a86e8;">
+                    <i class="fab fa-steam"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>Steam</h3>
+                    <p>Steam是全球最大的PC游戏数字发行平台。用户可在此购买、下载、管理、畅玩海量游戏，享受社区功能、自动更新及定期特惠。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <a href="https://store.steampowered.com/about/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #333;">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>Epic Games</h3>
+                    <p>Epic是一个游戏数字发行平台，简称"E宝"，每周提供免费游戏，拥有独占大作，支持跨平台游戏。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <a href="https://store.epicgames.com/zh-CN/download" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #00c4ff;">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>Wegame</h3>
+                    <p>腾讯旗下的游戏数字发行平台，CF、LOL、无畏契约等热门网游的下载平台，提供游戏加速和社区功能。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <a href="https://www.wegame.com.cn/client/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #4a86e8;">
+                    <i class="fas fa-microphone-alt"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>Teamspeak5</h3>
+                    <p>TeamSpeak5(TS) 赛事级专业语音通讯工具，以超低延迟、无损音质及稳定可靠著称,也是个人推荐的游戏社区首选通讯工具。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://teamspeak.com/zh-CN/downloads/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #ff6b6b;">
+                    <i class="fas fa-headphones"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>KOOK</h3>
+                    <p>KOOK（原"开黑啦"）用户群体比较广，支持游戏语音、文字聊天、社区管理等功能，适合团队协作。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://www.kookapp.cn/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #9b59b6;">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>OOPZ</h3>
+                    <p>与KOOK大致相同，专注于游戏语音通讯，提供高质量语音服务，适合团队游戏协作。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <a href="https://oopz.cn/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #ff8a00;">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>网易UU加速器</h3>
+                    <p>UU加速器,网易大厂的出品，稳定但是价格稍贵，支持多平台游戏加速，有效降低延迟，提高游戏体验。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://uu.163.com/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card" data-category="gaming">
+                <div class="card-icon" style="color: #ff5252;">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category gaming">游戏必备</span>
+                    <h3>雷神加速器</h3>
+                    <p>小时计费随用随停，支持多种游戏加速，提供免费试用，节点覆盖广泛。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <a href="https://www.leigod.com/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <!-- 设计创作 -->
+            <div class="card" data-category="design">
+                 <div class="card-icon" style="color: #ff0000;">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category design">设计创作</span>
+                    <h3>Adobe 2024全家桶</h3>
+                    <p>含Ps、Ai、Pr、Ae等全套专业设计软件，点击下载跳转夸克云下载，如需其他版本或Adobe软件请联系我。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <a href="https://pan.quark.cn/s/107e07228a0f" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <!-- 影音娱乐 -->    
+            <div class="card" data-category="media">
+                <div class="card-icon" style="color: #e01e25;">
+                    <i class="fab fa-napster"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category media">影音娱乐</span>
+                    <h3>网易云音乐</h3>
+                    <p>网易云音乐融合多语种曲库与个性推荐算法，覆盖热门歌手至小众音乐人。集成有声剧场、精品播客及场景歌单，更以"云村"乐评社区打造沉浸式音乐生活圈。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://music.163.com/#/download" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="media">
+                <div class="card-icon" style="color: #31c27c;">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category media">影音娱乐</span>
+                    <h3>QQ音乐</h3>
+                    <p>QQ音乐是中国领先的数字音乐服务平台，由腾讯公司于2005年推出，拥有海量正版音乐版权，覆盖华语、欧美、日韩等全球主流音乐内容。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://y.qq.com/download/index.html" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="media">
+                <div class="card-icon" style="color: #00a0e8;">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category media">影音娱乐</span>
+                    <h3>酷狗音乐</h3>
+                    <p>酷狗音乐是一款拥有超过3000万正版高清曲库资源的音乐播放软件，支持视觉全新设计、蝰蛇声学、猜你喜欢等功能。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <a href="https://download.kugou.com/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <!-- 实用工具 -->
+            <div class="card" data-category="utility">
+                <div class="card-icon" style="color: #4b9cd3;">
+                    <i class="fas fa-file-archive"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category utility">实用工具</span>
+                    <h3>Bandizip</h3>
+                    <p>Bandizip 是一款免费、简洁且功能强大的压缩软件。它支持 ZIP, RAR, 7Z 等众多格式的压缩和解压，操作简单快捷，界面清爽无广告，是处理压缩文件的优秀工具。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <a href="https://cn.bandisoft.com/bandizip/old/6/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card" data-category="utility">
+                <div class="card-icon" style="color: #4b9cd3;">
+                    <i class="fas fa-file-archive"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category utility">实用工具</span>
+                    <h3>7-Zip</h3>
+                    <p>7-Zip是免费开源的压缩解压软件，支持多种压缩格式，具有高压缩比和快速处理速度，无广告无捆绑，是Windows必备工具。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <a href="https://www.7-zip.org/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="utility">
+                <div class="card-icon" style="color: #ff9800;">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category utility">实用工具</span>
+                    <h3>Everything</h3>
+                    <p>Everything是Windows上最快的文件搜索工具，能在数秒内搜索数百万文件，轻量高效无广告，大幅提升文件查找效率。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <a href="https://www.voidtools.com/downloads/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="utility">
+                <div class="card-icon" style="color: #e91e63;">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category utility">实用工具</span>
+                    <h3>Potplayer</h3>
+                    <p>PotPlayer 是轻量高效的万能本地播放器之王，以强悍解码能力、极低资源消耗及海量格式支持著称。提供深度自定义、流畅硬解4K/8K，是专业用户的首选高清播放利器。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <a href="https://potplayer.tv/" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="utility">
+                <div class="card-icon" style="color: #4caf50;">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category utility">实用工具</span>
+                    <h3>图吧工具箱</h3>
+                    <p>图吧工具箱，是开源、免费、绿色、纯净的硬件检测工具合集，专为所有计算机硬件极客、DIY爱好者、各路大神及小白制作。集成大量常见硬件检测、评分工具，一键下载、方便使用。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <a href="https://www.tbtool.cn/index.html" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" data-category="utility">
+                <div class="card-icon" style="color: #9c27b0;">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category utility">实用工具</span>
+                    <h3>OBS</h3>
+                    <p>OBS是一款免费开源的直播推流和屏幕录制工具，支持多平台直播、场景切换、音频混合等功能，是主播和内容创作者的必备工具。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                        <i class="fab fa-apple"></i>
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <a href="https://obsproject.com/zh-cn" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 电脑清理 -->            
+            <div class="card" data-category="clean">
+                <div class="card-icon" style="color: #f39c12;">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category clean">电脑清理</span>
+                    <h3>SoftCnKiller</h3>
+                    <p>Softcnkiller是一款简易实用，功能全面的清理流氓软件的工具，能够帮助用户消灭电脑中的各种流氓软件以及广告弹窗，支持一键快速清理流氓软件。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <a href="https://gitee.com/softcnkiller/data/releases/tag/v2.82" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card" data-category="clean">
+                <div class="card-icon" style="color: #3498db;">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category clean">电脑清理</span>
+                    <h3>Geek Uninstaller</h3>
+                    <p>Geek Uninstaller 是专业轻量的卸载利器，彻底清除软件无残留。强制卸载顽固程序、深度扫描注册表垃圾，免安装即点即用。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <a href="https://geekuninstaller.com/download" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>   
+            
+            <div class="card" data-category="clean">
+                <div class="card-icon" style="color: #2c3e50;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="card-content">
+                    <span class="category clean">电脑清理</span>
+                    <h3>Privazer</h3>
+                    <p>PrivaZer是一款功能强大的电脑清理工具，用于清理系统垃圾、保护隐私和优化系统性能。它可以清除系统中的临时文件、日志文件、缩略图缓存和其他无用数据，释放磁盘空间。</p>
+                </div>
+                <div class="card-footer">
+                    <div class="platform">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <a href="https://privazer.com/zc/download.php" target="_blank" class="download-btn">
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>   
+            
+            <div class="no-results">
+                <i class="fas fa-search fa-3x" style="margin-bottom: 20px;"></i>
+                <h3>未找到匹配的软件</h3>
+                <p>请尝试选择其他分类或搜索不同的关键词</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 L1uy | 所有软件均来自官方网站 安全可靠</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.card');
+            const noResults = document.querySelector('.no-results');
+            
+            // 分类过滤功能
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 更新活动按钮
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 获取过滤条件
+                    const filter = this.dataset.filter;
+                    
+                    // 过滤卡片
+                    let visibleCount = 0;
+                    cards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.classList.remove('hidden');
+                            visibleCount++;
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                    
+                    // 显示/隐藏无结果消息
+                    if (visibleCount === 0) {
+                        noResults.classList.add('show');
+                    } else {
+                        noResults.classList.remove('show');
+                    }
+                });
+            });
+            
+            // 下载按钮点击动画
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // 创建动画元素
+                    const effect = document.createElement('div');
+                    effect.className = 'click-effect';
+                    effect.style.position = 'absolute';
+                    effect.style.width = '10px';
+                    effect.style.height = '10px';
+                    effect.style.borderRadius = '50%';
+                    effect.style.background = 'rgba(255, 255, 255, 0.7)';
+                    effect.style.pointerEvents = 'none';
+                    effect.style.transform = 'translate(-50%, -50%)';
+                    
+                    // 获取点击位置
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    effect.style.left = `${x}px`;
+                    effect.style.top = `${y}px`;
+                    this.appendChild(effect);
+                    
+                    // 动画
+                    effect.animate([
+                        { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+                        { transform: 'translate(-50%, -50%) scale(5)', opacity: 0 }
+                    ], {
+                        duration: 500,
+                        easing: 'ease-out'
+                    });
+                    
+                    // 移除动画元素
+                    setTimeout(() => {
+                        effect.remove();
+                    }, 500);
+                });
+            });
+            
+            // 添加卡片悬停动画
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '1';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
